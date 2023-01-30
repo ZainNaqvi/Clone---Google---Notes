@@ -1,20 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc_patern/blocs/bloc_exports.dart';
-import 'package:path_provider/path_provider.dart';
-import 'screens/tasks_screen.dart';
+import 'package:flutter_bloc_patern/screens/tasks_screen.dart';
+import 'package:flutter_bloc_patern/services/app_routes.dart';
+import 'blocs/bloc_exports.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  final storage = await HydratedStorage.build(
-      storageDirectory: await getApplicationDocumentsDirectory());
-  HydratedBlocOverrides.runZoned(
-    () => runApp(const MyApp()),
-    storage: storage,
-  );
+void main() {
+  runApp(MyApp(appRouter: AppRouter()));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({Key? key, required this.appRouter}) : super(key: key);
+  final AppRouter appRouter;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -23,8 +18,10 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Tasks App',
         theme: ThemeData(
           primarySwatch: Colors.blue,
+          useMaterial3: true,
         ),
-        home: const TasksScreen(),
+        initialRoute: '/',
+        onGenerateRoute: appRouter.onGenerateRoute,
       ),
     );
   }

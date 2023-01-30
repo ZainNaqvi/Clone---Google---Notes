@@ -1,55 +1,55 @@
 import 'package:flutter/material.dart';
-import '../blocs/bloc_exports.dart';
-import '../models/task.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_bloc_patern/blocs/bloc/tasks_bloc.dart';
 
-void addTask(BuildContext context) {
-  final TextEditingController titleController = TextEditingController();
+import '../models/tasks_model.dart';
+import 'generate_ids.dart';
+
+void showModalBox(BuildContext context) {
+  TextEditingController titleController = TextEditingController();
   showModalBottomSheet(
     context: context,
     builder: (context) => SingleChildScrollView(
       child: Container(
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(12),
-            topRight: Radius.circular(12),
-          ),
-        ),
         padding:
             EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
         child: Padding(
-          padding: const EdgeInsets.all(18),
+          padding: const EdgeInsets.all(14.0),
           child: Column(
-            mainAxisSize: MainAxisSize.min,
             children: [
               const Text(
                 "Add Task",
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
+                style: TextStyle(
+                  fontSize: 24,
+                ),
               ),
               const SizedBox(height: 8),
               TextField(
                 controller: titleController,
                 autofocus: true,
                 decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
+                  helperMaxLines: 3,
                   label: Text('Title'),
+                  border: OutlineInputBorder(),
                 ),
               ),
-              const SizedBox(height: 4),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   TextButton(
                     onPressed: () => Navigator.pop(context),
-                    child: const Text("Cancel"),
+                    child: const Text('Cancel'),
                   ),
-                  const SizedBox(width: 8),
                   ElevatedButton(
                     onPressed: () {
-                      final task = Task(title: titleController.text);
+                      var task = Task(
+                        title: titleController.text,
+                        id: GUIDGen.generate(),
+                      );
                       context.read<TasksBloc>().add(AddTask(task: task));
                       Navigator.pop(context);
                     },
-                    child: const Text("Add Task"),
+                    child: const Text("Add"),
                   ),
                 ],
               )

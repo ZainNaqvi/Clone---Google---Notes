@@ -4,10 +4,13 @@ class Task extends Equatable {
   final String title;
   bool? isDeleted;
   bool? isDone;
+  final String id;
+
   Task({
     required this.title,
     this.isDeleted,
     this.isDone,
+    required this.id,
   }) {
     isDeleted = isDeleted ?? false;
     isDone = isDone ?? false;
@@ -17,30 +20,16 @@ class Task extends Equatable {
     String? title,
     bool? isDeleted,
     bool? isDone,
+    String? id,
   }) {
     return Task(
+      id: id ?? this.id,
       title: title ?? this.title,
       isDeleted: isDeleted ?? this.isDeleted,
       isDone: isDone ?? this.isDone,
     );
   }
 
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'title': title,
-      'isDeleted': isDeleted,
-      'isDone': isDone,
-    };
-  }
-
-  factory Task.fromMap(Map<String, dynamic> map) {
-    return Task(
-      title: map['title'] as String,
-      isDeleted: map['isDeleted'] != null ? map['isDeleted'] as bool : null,
-      isDone: map['isDone'] != null ? map['isDone'] as bool : null,
-    );
-  }
-
   @override
-  List<Object?> get props => [title, isDeleted, isDone];
+  List<Object?> get props => [title, isDeleted, isDone, id];
 }
