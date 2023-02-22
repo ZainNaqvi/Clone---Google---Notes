@@ -6,7 +6,7 @@ import '../bloc_exports.dart';
 part 'tasks_event.dart';
 part 'tasks_state.dart';
 
-class TasksBloc extends Bloc<TasksEvent, TasksState> {
+class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
   TasksBloc() : super(const TasksState()) {
     on<AddTask>(_onAddTask);
     on<UpdateTask>(_onUpdateTask);
@@ -17,15 +17,14 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
   void _onAddTask(AddTask event, Emitter<TasksState> emit) {
     final state = this.state;
     final task = event.task;
-    List<Task> allTasks = List.from(state.allTasks)..add(event.task);
-
+    List<Task> allTasks = List.from(state.allTasks)..add(task);
     emit(TasksState(allTasks: allTasks, removedTasks: state.removedTasks));
   }
 
   void _onUpdateTask(UpdateTask event, Emitter<TasksState> emit) {
     final state = this.state;
     final task = event.task;
-    int index = List.from(state.allTasks).indexOf(task);
+    final index = List.from(state.allTasks).indexOf(task);
     List<Task> allTasks = List.from(state.allTasks)..remove(task);
     task.isDone == false
         ? allTasks.insert(index, task.copyWith(isDone: true))
@@ -37,18 +36,27 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
   void _onDeleteTask(DeleteTask event, Emitter<TasksState> emit) {
     final state = this.state;
     final task = event.task;
-    List<Task> removeTasks = List.from(state.removedTasks)..remove(task);
-
-    emit(TasksState(allTasks: state.allTasks, removedTasks: removeTasks));
+    List<Task> removedTasks = List.from(state.removedTasks)..remove(task);
+    emit(TasksState(allTasks: state.allTasks, removedTasks: removedTasks));
   }
 
   void _onRemoveTask(RemoveTask event, Emitter<TasksState> emit) {
     final state = this.state;
     final task = event.task;
     List<Task> removedTasks = List.from(state.removedTasks)
-      ..add(event.task.copyWith(isDeleted: true));
+      ..add(task.copyWith(isDeleted: true));
     List<Task> allTasks = List.from(state.allTasks)..remove(task);
 
     emit(TasksState(allTasks: allTasks, removedTasks: removedTasks));
+  }
+
+  @override
+  TasksState? fromJson(Map<String, dynamic> json) {
+    return TasksState.fromMap(json);
+  }
+
+  @override
+  Map<String, dynamic>? toJson(TasksState state) {
+    return state.toMap();
   }
 }
