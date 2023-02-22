@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bloc_patern/screens/recycle_bin.dart';
 import 'package:flutter_bloc_patern/screens/tabs_screen.dart';
-import 'package:flutter_bloc_patern/screens/pending_tasks.dart';
 
 import '../blocs/bloc_exports.dart';
 
@@ -40,7 +38,7 @@ class DrawerWidget extends StatelessWidget {
                       Navigator.pushReplacementNamed(context, TabsScreen.id),
                   leading: const Icon(Icons.folder_special),
                   title: const Text('My Tasks'),
-                  trailing: Text(state.allTasks.length.toString()),
+                  trailing: Text(state.pendingTasks.length.toString()),
                 ),
                 const Divider(),
                 ListTile(

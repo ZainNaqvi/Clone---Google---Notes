@@ -26,19 +26,23 @@ class _TabsScreenState extends State<TabsScreen> {
       drawer: const DrawerWidget(),
       appBar: AppBar(
         title: Text(listOfWidgets[currentIndex]['title']),
-        actions: [
-          IconButton(
-            onPressed: () => openBottomSheet(context),
-            icon: const Icon(Icons.add),
-          ),
-        ],
+        actions: currentIndex != 0
+            ? null
+            : [
+                IconButton(
+                  onPressed: () => openBottomSheet(context),
+                  icon: const Icon(Icons.add),
+                ),
+              ],
       ),
       body: listOfWidgets[currentIndex]['pageName'],
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => openBottomSheet(context),
-        tooltip: 'Add Task',
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: currentIndex == 0
+          ? FloatingActionButton(
+              onPressed: () => openBottomSheet(context),
+              tooltip: 'Add Task',
+              child: const Icon(Icons.add),
+            )
+          : null,
       bottomNavigationBar: BottomNavigationBar(
         onTap: (index) {
           setState(() {

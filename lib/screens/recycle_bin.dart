@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_bloc_patern/models/tasks_model.dart';
 import 'package:flutter_bloc_patern/screens/drawer.dart';
 import 'package:flutter_bloc_patern/screens/tasks_list.dart';
 import '../blocs/bloc_exports.dart';
@@ -18,12 +16,6 @@ class RecycleBin extends StatelessWidget {
           drawer: const DrawerWidget(),
           appBar: AppBar(
             title: const Text('Recycle Bin'),
-            actions: [
-              IconButton(
-                onPressed: () => openBottomSheet(context),
-                icon: const Icon(Icons.add),
-              )
-            ],
           ),
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.center,

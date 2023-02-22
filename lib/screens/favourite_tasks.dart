@@ -18,11 +18,11 @@ class FavouriteTasks extends StatelessWidget {
               Center(
                 child: Chip(
                   label: Text(
-                    '${state.allTasks.length} Tasks:',
+                    '${state.favouriteTasks.length} Tasks:',
                   ),
                 ),
               ),
-              TaskList(allTasks: state.allTasks),
+              TaskList(allTasks: state.favouriteTasks),
             ],
           ),
         );

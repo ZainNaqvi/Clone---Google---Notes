@@ -18,11 +18,11 @@ class CompletedTasks extends StatelessWidget {
               Center(
                 child: Chip(
                   label: Text(
-                    '${state.allTasks.length} Tasks:',
+                    '${state.completedTasks.length} Tasks:',
                   ),
                 ),
               ),
-              TaskList(allTasks: state.allTasks),
+              TaskList(allTasks: state.completedTasks),
             ],
           ),
         );

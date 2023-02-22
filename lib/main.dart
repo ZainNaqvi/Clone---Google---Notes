@@ -4,7 +4,6 @@ import 'package:flutter_bloc_patern/screens/tabs_screen.dart';
 import 'package:flutter_bloc_patern/services/route_generator.dart';
 import 'package:flutter_bloc_patern/services/themes_services.dart';
 import 'package:path_provider/path_provider.dart';
-import 'screens/pending_tasks.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
