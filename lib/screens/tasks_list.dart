@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:intl/intl.dart';
 
 import '../blocs/bloc_exports.dart';
@@ -65,6 +66,11 @@ class TaskList extends StatelessWidget {
                               context
                                   .read<TasksBloc>()
                                   .add(DeleteTask(task: task));
+                            }
+                            if (value == 'Restore') {
+                              context
+                                  .read<TasksBloc>()
+                                  .add(RestoreTask(task: task));
                             }
                           },
                           itemBuilder: (BuildContext buildContext) {

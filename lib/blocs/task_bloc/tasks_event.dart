@@ -41,3 +41,18 @@ class AddAndRemoveBookmark extends TasksEvent {
   @override
   List<Object> get props => [task];
 }
+
+class EditTask extends TasksEvent {
+  final Task oldTask;
+  final Task updatedTask;
+  const EditTask({required this.updatedTask, required this.oldTask});
+  @override
+  List<Object> get props => [updatedTask, oldTask];
+}
+
+class RestoreTask extends TasksEvent {
+  final Task task;
+  const RestoreTask({required this.task});
+  @override
+  List<Object> get props => [task];
+}

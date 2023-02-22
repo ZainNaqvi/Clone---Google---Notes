@@ -38,7 +38,9 @@ class DrawerWidget extends StatelessWidget {
                       Navigator.pushReplacementNamed(context, TabsScreen.id),
                   leading: const Icon(Icons.folder_special),
                   title: const Text('My Tasks'),
-                  trailing: Text(state.pendingTasks.length.toString()),
+                  trailing: Text(
+                    '${state.pendingTasks.length} | ${state.completedTasks.length} ',
+                  ),
                 ),
                 const Divider(),
                 ListTile(

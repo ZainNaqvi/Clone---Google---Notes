@@ -13,6 +13,8 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
     on<DeleteTask>(_onDeleteTask);
     on<RemoveTask>(_onRemoveTask);
     on<AddAndRemoveBookmark>(_onAddAndRemoveBookmark);
+    on<EditTask>(_onEditTask);
+    on<RestoreTask>(_onRestoreTask);
   }
 
   void _onAddTask(AddTask event, Emitter<TasksState> emit) {
@@ -134,6 +136,52 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
       favouriteTasks: favouriteTasks,
       removedTasks: state.removedTasks,
     ));
+  }
+
+  void _onEditTask(EditTask event, Emitter<TasksState> emit) {
+    final oldTask = event.oldTask;
+    final updatedTask = event.updatedTask;
+    List<Task> favouriteTasks = state.favouriteTasks;
+
+    if (oldTask.isFavourite!) {
+      favouriteTasks
+        ..remove(oldTask)
+        ..insert(0, updatedTask);
+    }
+    emit(
+      TasksState(
+        pendingTasks: List.from(state.pendingTasks)
+          ..remove(oldTask)
+          ..insert(0, updatedTask),
+        completedTasks: List.from(state.pendingTasks)..remove(oldTask),
+        favouriteTasks: favouriteTasks,
+        removedTasks: state.removedTasks,
+      ),
+    );
+  }
+
+  void _onRestoreTask(RestoreTask event, Emitter<TasksState> emit) {
+    final state = this.state;
+    final task = event.task;
+    List<Task> removedTasks = state.removedTasks;
+    List<Task> pendingTasks = state.pendingTasks;
+
+    emit(
+      TasksState(
+        pendingTasks: List.from(pendingTasks)
+          ..insert(
+              0,
+              task.copyWith(
+                isDeleted: false,
+                isFavourite: false,
+                date: DateTime.now().toString(),
+                isDone: false,
+              )),
+        completedTasks: state.completedTasks,
+        favouriteTasks: state.favouriteTasks,
+        removedTasks: List.from(removedTasks)..remove(task),
+      ),
+    );
   }
 
   @override
