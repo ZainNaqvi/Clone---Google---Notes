@@ -34,3 +34,10 @@ class RemoveTask extends TasksEvent {
   @override
   List<Object> get props => [task];
 }
+
+class AddAndRemoveBookmark extends TasksEvent {
+  final Task task;
+  const AddAndRemoveBookmark({required this.task});
+  @override
+  List<Object> get props => [task];
+}

@@ -4,8 +4,10 @@ import '../models/tasks_model.dart';
 import '../services/generate_unique_ids.dart';
 
 Future<dynamic> openBottomSheet(BuildContext context) {
-  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController titleController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
   return showModalBottomSheet(
+    isScrollControlled: true,
     context: context,
     builder: (BuildContext context) {
       return Padding(
@@ -26,14 +28,24 @@ Future<dynamic> openBottomSheet(BuildContext context) {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 8),
+              padding: const EdgeInsets.only(top: 10, bottom: 10),
               child: TextFormField(
-                controller: _titleController,
+                controller: titleController,
                 autofocus: true,
                 decoration: const InputDecoration(
                   label: Text('Title'),
                   border: OutlineInputBorder(),
                 ),
+              ),
+            ),
+            TextFormField(
+              controller: descriptionController,
+              autofocus: true,
+              minLines: 3,
+              maxLines: 5,
+              decoration: const InputDecoration(
+                label: Text('Description'),
+                border: OutlineInputBorder(),
               ),
             ),
             Row(
@@ -46,12 +58,13 @@ Future<dynamic> openBottomSheet(BuildContext context) {
                 ElevatedButton(
                   onPressed: () {
                     String uniqueKey = generateRandomKey();
-                    print(uniqueKey);
                     context.read<TasksBloc>().add(
                           AddTask(
                             task: Task(
                               id: uniqueKey,
-                              title: _titleController.text,
+                              title: titleController.text,
+                              description: descriptionController.text,
+                              date: DateTime.now().toString(),
                             ),
                           ),
                         );

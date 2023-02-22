@@ -12,6 +12,7 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
     on<UpdateTask>(_onUpdateTask);
     on<DeleteTask>(_onDeleteTask);
     on<RemoveTask>(_onRemoveTask);
+    on<AddAndRemoveBookmark>(_onAddAndRemoveBookmark);
   }
 
   void _onAddTask(AddTask event, Emitter<TasksState> emit) {
@@ -66,15 +67,72 @@ class TasksBloc extends HydratedBloc<TasksEvent, TasksState> {
   void _onRemoveTask(RemoveTask event, Emitter<TasksState> emit) {
     final state = this.state;
     final task = event.task;
+
+    List<Task> pendingTasks = state.pendingTasks;
+    List<Task> completedTasks = state.completedTasks;
+    List<Task> favouriteTasks = state.favouriteTasks;
+
     List<Task> removedTasks = List.from(state.removedTasks)
       ..add(task.copyWith(isDeleted: true));
-    List<Task> pendingTasks = List.from(state.pendingTasks)..remove(task);
+    pendingTasks = List.from(state.pendingTasks)..remove(task);
+    completedTasks = List.from(state.completedTasks)..remove(task);
+    favouriteTasks = List.from(state.favouriteTasks)..remove(task);
 
     emit(TasksState(
       pendingTasks: pendingTasks,
-      completedTasks: state.completedTasks,
-      favouriteTasks: state.favouriteTasks,
+      completedTasks: completedTasks,
+      favouriteTasks: favouriteTasks,
       removedTasks: removedTasks,
+    ));
+  }
+
+  void _onAddAndRemoveBookmark(
+      AddAndRemoveBookmark event, Emitter<TasksState> emit) {
+    final state = this.state;
+    final task = event.task;
+
+    List<Task> pendingTasks = state.pendingTasks;
+    List<Task> completedTasks = state.completedTasks;
+    List<Task> favouriteTasks = state.favouriteTasks;
+
+    if (task.isDone == false) {
+      if (task.isFavourite == false) {
+        int taskIndex = List.from(pendingTasks).indexOf(task);
+        pendingTasks = List.from(pendingTasks)
+          ..remove(task)
+          ..insert(taskIndex, task.copyWith(isFavourite: true));
+        favouriteTasks = List.from(favouriteTasks)
+          ..insert(0, task.copyWith(isFavourite: true));
+      } else {
+        int taskIndex = List.from(pendingTasks).indexOf(task);
+        pendingTasks = List.from(pendingTasks)
+          ..remove(task)
+          ..insert(taskIndex, task.copyWith(isFavourite: false));
+        favouriteTasks.remove(task);
+      }
+    } else {
+      if (task.isFavourite == false) {
+        int taskIndex = List.from(completedTasks).indexOf(task);
+        completedTasks = List.from(completedTasks)
+          ..remove(task)
+          ..insert(taskIndex, task.copyWith(isFavourite: true));
+        favouriteTasks = List.from(favouriteTasks)
+          ..insert(0, task.copyWith(isFavourite: true));
+      } else {
+        int taskIndex = List.from(completedTasks).indexOf(task);
+        favouriteTasks = List.from(favouriteTasks)
+          ..insert(taskIndex, task.copyWith(isFavourite: true));
+        completedTasks = List.from(completedTasks)
+          ..remove(task)
+          ..insert(taskIndex, task.copyWith(isFavourite: false));
+        favouriteTasks.remove(task);
+      }
+    }
+    emit(TasksState(
+      completedTasks: completedTasks,
+      pendingTasks: pendingTasks,
+      favouriteTasks: favouriteTasks,
+      removedTasks: state.removedTasks,
     ));
   }
 

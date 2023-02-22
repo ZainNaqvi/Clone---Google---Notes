@@ -38,6 +38,9 @@ class _TabsScreenState extends State<TabsScreen> {
       body: listOfWidgets[currentIndex]['pageName'],
       floatingActionButton: currentIndex == 0
           ? FloatingActionButton(
+              backgroundColor: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.grey
+                  : Colors.blue,
               onPressed: () => openBottomSheet(context),
               tooltip: 'Add Task',
               child: const Icon(Icons.add),
@@ -52,17 +55,11 @@ class _TabsScreenState extends State<TabsScreen> {
         currentIndex: currentIndex,
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.list),
-            label: "Pending - Tasks",
-          ),
+              icon: Icon(Icons.list), label: "Pending - Tasks"),
           BottomNavigationBarItem(
-            icon: Icon(Icons.done),
-            label: "Completed - Tasks",
-          ),
+              icon: Icon(Icons.done), label: "Completed - Tasks"),
           BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
-            label: "Favourite - Tasks",
-          ),
+              icon: Icon(Icons.favorite), label: "Favourite - Tasks"),
         ],
       ),
     );

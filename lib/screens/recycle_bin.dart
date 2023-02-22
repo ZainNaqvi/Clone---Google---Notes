@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc_patern/screens/drawer.dart';
 import 'package:flutter_bloc_patern/screens/tasks_list.dart';
 import '../blocs/bloc_exports.dart';
-import 'add_task.dart';
 
 class RecycleBin extends StatelessWidget {
   static const String id = 'Recycle-bin';
