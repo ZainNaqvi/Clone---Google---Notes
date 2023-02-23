@@ -34,6 +34,7 @@ class TaskList extends StatelessWidget {
                         task.isFavourite! ? Icons.star : Icons.star_outline),
                     title: Text(
                       task.title,
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         decoration:
                             task.isDone! ? TextDecoration.lineThrough : null,
@@ -47,6 +48,7 @@ class TaskList extends StatelessWidget {
                           .add_Hm()
                           .format(DateTime.parse(task.date))
                           .toString(),
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(fontSize: 12),
                     ),
                     trailing: Row(
