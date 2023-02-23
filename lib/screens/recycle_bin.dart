@@ -4,7 +4,6 @@ import 'package:flutter_bloc_patern/screens/tasks_list.dart';
 import '../blocs/bloc_exports.dart';
 
 class RecycleBin extends StatelessWidget {
-  static const String id = 'Recycle-bin';
   const RecycleBin({Key? key}) : super(key: key);
 
   @override

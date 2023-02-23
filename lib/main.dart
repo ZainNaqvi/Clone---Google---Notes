@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc_patern/blocs/bloc_exports.dart';
-import 'package:flutter_bloc_patern/screens/tabs_screen.dart';
-import 'package:flutter_bloc_patern/services/route_generator.dart';
+import 'package:flutter_bloc_patern/services/app_pages.dart';
 import 'package:flutter_bloc_patern/services/themes_services.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -10,22 +9,15 @@ void main() async {
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: await getApplicationDocumentsDirectory(),
   );
-
-  runApp(MyApp(
-    appRouter: AppRouter(),
-  ));
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key, required this.appRouter}) : super(key: key);
-  final AppRouter appRouter;
+  const MyApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (context) => TasksBloc()),
-        BlocProvider(create: (context) => SwitchBloc()),
-      ],
+      providers: [...AppPages.Blocer(context)],
       child: BlocBuilder<SwitchBloc, SwitchState>(
         builder: (context, state) {
           return MaterialApp(
@@ -33,8 +25,8 @@ class MyApp extends StatelessWidget {
             themeMode: state.switchValue ? ThemeMode.dark : ThemeMode.light,
             title: 'Flutter Tasks App',
             theme: Themes.light,
-            onGenerateRoute: appRouter.onGenerateRoute,
-            home: const TabsScreen(),
+            onGenerateRoute: AppPages.onGenerateRoute,
+            initialRoute: AppRoutes.INITIAL,
           );
         },
       ),

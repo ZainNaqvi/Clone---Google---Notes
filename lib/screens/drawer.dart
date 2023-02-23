@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc_patern/screens/recycle_bin.dart';
 import 'package:flutter_bloc_patern/screens/tabs_screen.dart';
+import 'package:flutter_bloc_patern/services/app_pages.dart';
 
 import '../blocs/bloc_exports.dart';
 
@@ -34,8 +35,10 @@ class DrawerWidget extends StatelessWidget {
                   ),
                 ),
                 ListTile(
-                  onTap: () =>
-                      Navigator.pushReplacementNamed(context, TabsScreen.id),
+                  onTap: () => Navigator.pushReplacementNamed(
+                    context,
+                    AppRoutes.INITIAL,
+                  ),
                   leading: const Icon(Icons.folder_special),
                   title: const Text('My Tasks'),
                   trailing: Text(
@@ -44,8 +47,10 @@ class DrawerWidget extends StatelessWidget {
                 ),
                 const Divider(),
                 ListTile(
-                  onTap: () =>
-                      Navigator.pushReplacementNamed(context, RecycleBin.id),
+                  onTap: () => Navigator.pushReplacementNamed(
+                    context,
+                    AppRoutes.RECYCLE_BIN,
+                  ),
                   leading: const Icon(Icons.delete),
                   title: const Text('Recycle Bin'),
                   trailing: Text(state.removedTasks.length.toString()),

@@ -6,7 +6,6 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc_patern/services/route_generator.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:flutter_bloc_patern/main.dart';
@@ -14,9 +13,7 @@ import 'package:flutter_bloc_patern/main.dart';
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(MyApp(
-      appRouter: AppRouter(),
-    ));
+    await tester.pumpWidget(const MyApp());
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);
